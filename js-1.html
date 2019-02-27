@@ -67,17 +67,17 @@ function hello(context)
     	drawRule(cellRow, context, xCoord, yCoord, drawRatio);
     	
     	let newCellRow = Array(cellRow.length);
-    	/*
+    	
     	for (let i = 1; i < newCellRow.length - 1; i++)
     	{
     		let leftCell = cellRow[i - 1];
-    		let midCell = lastGen[i];
-    		let rightCell = lastGen[i+1];
+    		let midCell = cellRow[i];
+    		let rightCell = cellRow[i+1];
     		newCellRow[i] = determineRule(leftCell, midCell, rightCell);
     	}
 	
     	cellRow = newCellRow;
-		*/
+		
     	yCoord += 10;
     	xCoord = 0;
     	lineCount++;
