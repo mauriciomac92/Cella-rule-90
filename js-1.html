@@ -1,10 +1,29 @@
+<!--
+=====================================================
+Project #1 - Cella Rule 90
+=====================================================
+
+Authors:
+------------
+Gabriel Rivera - gabriel-rivera-457@csu.fullerton.edu
+Mitchell Norseth - < need email here >
+Mauricio Macias - Mauricio.macias@csu.fullerton.edu
+
+Description:
+------------
+This program draws the cellular automaton Rule 90 by
+using arrays to determine binary states of each
+individual row. It then draws the automaton based on
+whether the binary state is either a "0" or "1".
+-->
+
 <!doctype html><html><head>
 <title>This is an HTML canvas</title>
 <link rel="stylesheet" href="../assets/styles.css">
 </head>
 <body><h1>Playing the HTML canvas</h1>
 <h4>Time-stamp: <2019-01-21 20:11:03 Chuck Siska></h4>
-<h4>Team POO</h4>
+<h4>Team MGM</h4>
 
 <canvas id="grid" width="400" height="400"></canvas>
 
@@ -23,7 +42,17 @@ function draw_title( context )
     context.fillText( "Grid", 150, 140 );
     context.restore( );
 }
-////////////////////////////////////
+
+// =====================================================  determineRule ====
+// Defines the binary state of a cell based on the upper three cells.
+
+/* 
+This function that was made originally by p5js.org is licenced under a
+Creative Commons Attribution Non-Commercial-ShareAlike 4.0 International
+License. Permissions beyond the scope of this license may be available at
+http://creativecommons.org/licenses/by-nc-sa/4.0/.
+*/
+
 function determineRule(a, b, c)
 {
 	ruleset = [0, 1, 0, 1, 1, 0, 1, 0];
@@ -35,39 +64,63 @@ function determineRule(a, b, c)
   	if (a == 0 && b == 1 && c == 0) return ruleset[5];
   	if (a == 0 && b == 0 && c == 1) return ruleset[6];
   	if (a == 0 && b == 0 && c == 0) return ruleset[7];
+
+  	// If none of these match, just return a "0" state.
   	return 0;
 }
 
+// =====================================================  drawRule ====
+// Color the cells in binary state "1" of a given grid/cell row.
 function drawRule(cellRow, context, x, y, ratio)
 {
+	// Looks through the given cell row and wherever it
+	// sees a "1" it colors that square.
 	for (let i = 0; i < cellRow.length; i++)
 	{
 		if (cellRow[i] == 1)
 		{
 			context.fillStyle = "white";
-			context.fillRect(x, y, 10, 10);
+			context.fillRect(x, y, ratio, ratio);
 		}
-		x += 10
+
+		// X coordinate goes up by given ratio.
+		x += ratio
 	}
 }
 
-function hello(context)
+// =====================================================  rule90 ====
+// Initiate the Rule 90 cellular automaton.
+function rule90(context)
 {
-    let drawRatio = 10;
+	// Determines the size of each square.
+    let drawRatio = 5;
 
-    var cellRow = Array(40).fill(0);
-    cellRow[19] = 1;
+	// Determines the size of the cellRow array that holds 
+	// the binary states of each row. Changes based on drawRatio.
+    let arrayLength = 400/drawRatio;
+    var cellRow = Array(arrayLength).fill(0);
 
+    // Initializes the top row of Rule 90.
+    cellRow[(arrayLength/2) - 1] = 1;
+
+    // The x and y coordinates for the context.fillrect() function.
     let xCoord = 0;
     let yCoord = 0;
+
+    // Keeps count of the what row the rule90() function is on.
     let lineCount = 0;
 
-    while (lineCount != 40)
+    // While loops works until there are no more rows.
+    while (lineCount != arrayLength)
     {
+    	// Calls drawRule() to draw the current cell row.
     	drawRule(cellRow, context, xCoord, yCoord, drawRatio);
     	
+    	// Creating empty row array for next generation;
     	let newCellRow = Array(cellRow.length);
     	
+    	// determineRule() looks at current cells and ruleset
+    	// for rule 90 to create the next cell row for the next generation.
     	for (let i = 1; i < newCellRow.length - 1; i++)
     	{
     		let leftCell = cellRow[i - 1];
@@ -76,24 +129,27 @@ function hello(context)
     		newCellRow[i] = determineRule(leftCell, midCell, rightCell);
     	}
 	
+		// Makes the next generation the current row.
     	cellRow = newCellRow;
 		
-    	yCoord += 10;
+		// Y coordinate goes up by the given ratio.
+    	yCoord += drawRatio;
+
+    	// X coordinate resets for next y coordinate.
     	xCoord = 0;
+
+    	// Increments lineCount for next generation.
     	lineCount++;
     }
 
 }
 
-////////////////////////////////////
-
 // =====================================================  Main ====
   var canvas = document.getElementById( "grid" );
   var context = canvas.getContext( "2d" );
-  draw_rect( context );
   // Draw a grid
-  draw_grid( context, 10, 50, 'white', 'yellow' );
-  draw_title(context);
-  hello(context);
+  draw_grid( context, 10, 50, 'white', 'yellow');
+  // Draw the Rule 90 picture
+  rule90(context);
 </script>
 </html>
