@@ -1,0 +1,68 @@
+<!doctype html><html><head>
+<title>This is an HTML canvas</title>
+<link rel="stylesheet" href="../assets/styles.css">
+</head>
+<body><h1>Playing the HTML canvas</h1>
+<h4>Time-stamp: <2019-01-21 20:11:03 Chuck Siska></h4>
+
+<canvas id="grid" width="400" height="400"></canvas>
+
+</body>
+<script src="../assets/draw-stuff.js"></script>
+<script>
+// after "Introducing JavaScript Game Development" by Stuart.
+
+// =====================================================  draw_title ====
+// Draw filled rect.
+function draw_title( context ) 
+{
+    context.save( );
+    context.fillStyle = 'lightgrey';
+    context.font = "10px Arial";
+    context.fillText( "x", 150, 140 );
+    context.restore( );
+}
+function rule90 ( ctx ){
+	ctx.save();
+	var arr = [];
+	for( var r = 0; r < 400; r = r + 10){
+		arr[r] = [];
+		for ( var c = 0; c < 400; c = c + 10){
+			arr[r][c] = false;
+		}
+	}
+	ctx.fillStyle = 'lightgrey';
+    ctx.font = "10px Arial";
+	arr[10][200] = true;
+	for( var r = 10; r < 390; r = r + 10){
+		for ( var c = 10; c < 390; c = c + 10){
+			if ( arr[r][c] == true){
+				ctx.fillText("X",c,r);
+			}
+			if( arr[r-10][c-10] == true && arr[r-10][c] == true && arr[r-10][c+10] == false){
+				ctx.fillText("X",c,r);
+				arr[r][c] = true;
+			}
+			if( arr[r-10][c-10] == true && arr[r-10][c] == false && arr[r-10][c+10] == false){
+				ctx.fillText("X",c,r);
+				arr[r][c] = true;
+			}
+			if( arr[r-10][c-10] == false && arr[r-10][c] == false && arr[r-10][c+10] == true){
+				ctx.fillText("X",c,r);
+				arr[r][c] = true;
+			}
+		}
+	}
+	ctx.restore();
+}
+// =====================================================  Main ====
+  var canvas = document.getElementById( "grid" );
+  var context = canvas.getContext( "2d" );
+  //draw_rect( context );
+  // Draw a grid
+  //draw_grid( context, 10, 50, 'white', 'yellow' );
+  //draw_title( context );
+  rule90( context );
+
+</script>
+</html>
