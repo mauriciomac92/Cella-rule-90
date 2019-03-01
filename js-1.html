@@ -1,8 +1,8 @@
 <!doctype html><html><head>
-<title>This is an HTML canvas</title>
+<title>Team MGM</title>
 <link rel="stylesheet" href="../assets/styles.css">
 </head>
-<body><h1>Playing the HTML canvas</h1>
+<body><h1> Team MGM </h1>
 <h4>Time-stamp: <2019-01-21 20:11:03 Chuck Siska></h4>
 
 <canvas id="grid" width="400" height="400"></canvas>
@@ -24,24 +24,24 @@ function draw_title( context )
 }
 function rule90 ( ctx ){
 	ctx.save();
-	var arr = [];
+	var arr = []; // make a 2d array called arr
 	for( var r = 0; r < 400; r = r + 10){
 		arr[r] = [];
 		for ( var c = 0; c < 400; c = c + 10){
-			arr[r][c] = false;
+			arr[r][c] = false; // make arr all equal to false or ( 0 state )
 		}
 	}
 	ctx.fillStyle = 'lightgrey';
     ctx.font = "10px Arial";
-	arr[10][200] = true;
+	arr[10][200] = true; // set the top row's 200th( just left of center) cell in state 1
 	for( var r = 10; r < 390; r = r + 10){
 		for ( var c = 10; c < 390; c = c + 10){
-			if ( arr[r][c] == true){
+			if ( arr[r][c] == true){ // make that if it at state 1 make a X mark
 				ctx.fillText("X",c,r);
 			}
 			if( arr[r-10][c-10] == true && arr[r-10][c] == true && arr[r-10][c+10] == false){
 				ctx.fillText("X",c,r);
-				arr[r][c] = true;
+				arr[r][c] = true; 
 			}
 			if( arr[r-10][c-10] == true && arr[r-10][c] == false && arr[r-10][c+10] == false){
 				ctx.fillText("X",c,r);
@@ -50,6 +50,22 @@ function rule90 ( ctx ){
 			if( arr[r-10][c-10] == false && arr[r-10][c] == false && arr[r-10][c+10] == true){
 				ctx.fillText("X",c,r);
 				arr[r][c] = true;
+			}
+			if( arr[r-10][c-10] == true && arr[r-10][c] == true && arr[r-10][c+10] == true){
+				ctx.fillText("-",c,r);
+				//arr[r][c] = false;
+			}
+			if( arr[r-10][c-10] == true && arr[r-10][c] == false && arr[r-10][c+10] == true){
+				ctx.fillText("-",c,r);
+				//arr[r][c] = false;
+			}
+			if( arr[r-10][c-10] == false && arr[r-10][c] == true && arr[r-10][c+10] == false){
+				ctx.fillText("-",c,r);
+				//arr[r][c] = false;
+			}
+			if( arr[r-10][c-10] == false && arr[r-10][c] == false && arr[r-10][c+10] == false){
+				ctx.fillText("-",c,r);
+				//arr[r][c] = false;
 			}
 		}
 	}
