@@ -1,9 +1,28 @@
+<!--
+=====================================================
+Project #1 - Cella Rule 90
+=====================================================
+
+Authors:
+------------
+Gabriel Rivera - gabriel-rivera-457@csu.fullerton.edu
+Mitchell Norseth - mitchell2124@csu.fullerton.edu
+Mauricio Macias - mauricio.macias@csu.fullerton.edu
+
+Description:
+------------
+This program draws the cellular automaton Rule 90 by
+using arrays to determine binary states of each
+individual row. It then draws the automaton based on
+whether the binary state is either a "0" or "1".
+-->
 <!doctype html><html><head>
-<title>Team MGM</title>
+<title>This is an HTML canvas</title>
 <link rel="stylesheet" href="../assets/styles.css">
 </head>
-<body><h1> Team MGM </h1>
+<body><h1>Project #1 - Cella Rule 90</h1>
 <h4>Time-stamp: <2019-01-21 20:11:03 Chuck Siska></h4>
+<h4>Team MGM</h4>
 
 <canvas id="grid" width="400" height="400"></canvas>
 
@@ -11,62 +30,37 @@
 <script src="../assets/draw-stuff.js"></script>
 <script>
 // after "Introducing JavaScript Game Development" by Stuart.
-
-// =====================================================  draw_title ====
-// Draw filled rect.
-function draw_title( context ) 
-{
-    context.save( );
-    context.fillStyle = 'lightgrey';
-    context.font = "10px Arial";
-    context.fillText( "x", 150, 140 );
-    context.restore( );
-}
+// =====================================================  rule90 ====
+// Inititate the Rule 90 cellualr automaton.
 function rule90 ( ctx ){
 	ctx.save();
-	var arr = []; // make a 2d array called arr
+	var arr = [];// created a 2d bool array called arr
 	for( var r = 0; r < 400; r = r + 10){
-		arr[r] = [];
+		arr[r] = [];// arr contains a 400 by 400 cell array
 		for ( var c = 0; c < 400; c = c + 10){
-			arr[r][c] = false; // make arr all equal to false or ( 0 state )
+			arr[r][c] = false;//arr os filled with the value of false or state 0
 		}
 	}
-	ctx.fillStyle = 'lightgrey';
-    ctx.font = "10px Arial";
-	arr[10][200] = true; // set the top row's 200th( just left of center) cell in state 1
-	for( var r = 10; r < 390; r = r + 10){
-		for ( var c = 10; c < 390; c = c + 10){
-			if ( arr[r][c] == true){ // make that if it at state 1 make a X mark
-				ctx.fillText("X",c,r);
+	ctx.fillStyle = 'white'; // Our binary cell state "1" is represented as
+    ctx.font = "10px Arial"; // a white 10px 
+	arr[10][200] = true;// top row's 200th cell in state 1.
+	if ( arr[10][200] == true){
+				ctx.fillText("X",200,10);
 			}
+	for( var r = 10; r < 400; r = r + 10){ // going up to down of arr
+		for ( var c = 10; c < 400; c = c + 10){// going left to right arr
 			if( arr[r-10][c-10] == true && arr[r-10][c] == true && arr[r-10][c+10] == false){
-				ctx.fillText("X",c,r);
-				arr[r][c] = true; 
-			}
+				ctx.fillText("X",c,r); // checks its top 3 neighbors cells states
+				arr[r][c] = true; // if current cell meets its requirements then it process 
+			}// to changing its state 
 			if( arr[r-10][c-10] == true && arr[r-10][c] == false && arr[r-10][c+10] == false){
-				ctx.fillText("X",c,r);
+				ctx.fillText("X",c,r);// this creates the X for my state "1"
 				arr[r][c] = true;
 			}
 			if( arr[r-10][c-10] == false && arr[r-10][c] == false && arr[r-10][c+10] == true){
 				ctx.fillText("X",c,r);
 				arr[r][c] = true;
-			}
-			if( arr[r-10][c-10] == true && arr[r-10][c] == true && arr[r-10][c+10] == true){
-				ctx.fillText("-",c,r);
-				//arr[r][c] = false;
-			}
-			if( arr[r-10][c-10] == true && arr[r-10][c] == false && arr[r-10][c+10] == true){
-				ctx.fillText("-",c,r);
-				//arr[r][c] = false;
-			}
-			if( arr[r-10][c-10] == false && arr[r-10][c] == true && arr[r-10][c+10] == false){
-				ctx.fillText("-",c,r);
-				//arr[r][c] = false;
-			}
-			if( arr[r-10][c-10] == false && arr[r-10][c] == false && arr[r-10][c+10] == false){
-				ctx.fillText("-",c,r);
-				//arr[r][c] = false;
-			}
+			}// else none of these match, just stay at "0" state.
 		}
 	}
 	ctx.restore();
@@ -74,11 +68,9 @@ function rule90 ( ctx ){
 // =====================================================  Main ====
   var canvas = document.getElementById( "grid" );
   var context = canvas.getContext( "2d" );
-  //draw_rect( context );
   // Draw a grid
-  //draw_grid( context, 10, 50, 'white', 'yellow' );
-  //draw_title( context );
+  draw_grid( context, 10, 50, 'white', 'yellow' );
+  // Draw the Rule 90 Picture
   rule90( context );
-
 </script>
 </html>
